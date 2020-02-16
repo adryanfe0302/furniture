@@ -12,17 +12,22 @@ const Main = (props) => {
         fetch(api)
         .then(res => res.json())
         .then(res => {
-            let arr = []
-            res.products.map(a => {
-                if (a.delivery_time === e) {
-                    arr.push(a)
-                }
-                // setFilter(arr)
-                setData((oldata) => ({
-                    ...oldata,
-                    products: arr
-                }))
-            }) 
+            if (e.length === 0) {
+                setData(res)
+            } else {
+                let arr = []
+                res.products.map((a,i) => {
+                    e.forEach(ee => {
+                        if (a.delivery_time <= ee) {
+                            arr.push(a)
+                        }
+                    })
+                    setData((oldata) => ({
+                        ...oldata,
+                        products: arr
+                    }))
+                }) 
+            }
         })
     }
     
@@ -30,44 +35,49 @@ const Main = (props) => {
         fetch(api)
         .then(res => res.json())
         .then(res => {
-            let arr = []
-            res.products.map(a => {
-                a.furniture_style.map(b => {
-                    if (b === e) {
-                        arr.push(a)
-                    }
-                })
-                console.log('arr', arr)
-                // setFilter(arr)
-                setData((oldata) => ({
-                    ...oldata,
-                    products: arr
-                }))
-            }) 
+            if (e.length === 0) {
+                setData(res)
+            } else {
+                let arr = []
+                res.products.map(a => {
+                    a.furniture_style.map(b => {
+                        e.forEach(ee => {
+                            if (b === ee) {
+                                arr.push(a)
+                            }
+                        })
+                        
+                    })
+                    setData((oldata) => ({
+                        ...oldata,
+                        products: arr
+                    }))
+                }) 
+            }
         })
-      
-        console.log('data1', filter)
-
-
     }
 
-
     const search = e => {
-        const lowercasedValue = e.toLowerCase();
-        const filterdata = data.products.filter(el => el.name.toLowerCase().includes(lowercasedValue))
-
-        console.log('filerdata', filterdata)
-        setData((prevState) => ({
-           ...prevState,
-           products: filterdata
-        }))
+        if (e === '') {
+            fetch(api)
+            .then(res => res.json())
+            .then(res => {
+                setData(res)
+            })
+        } else {
+            const lowercasedValue = e.toLowerCase();
+            const filterdata = data.products.filter(el => el.name.toLowerCase().includes(lowercasedValue))
+            
+            setData((prevState) => ({
+                ...prevState,
+                products: filterdata
+            }))
+        }
     }
 
     useEffect(() => {
         setFilter(data.products)
     })
-
-
 
     return (
         <Row>
@@ -83,17 +93,18 @@ const Main = (props) => {
                 </Col>
                 <br /><br /><br />
                 <Col span={10}>
-                <Select allowClear='true' defaultValue="Furniture Style" style={{ width: '100%' }} onChange={handleChangeFurniture}>
+                <Select mode="multiple" placeholder="Furniture Style" style={{ width: '100%' }} onChange={handleChangeFurniture}>
                     {data.furniture_styles !== undefined &&data.furniture_styles.map((list, id) => {
                         return <Option key={id} value={list}>{list}</Option>
                     })}
                 </Select>
                 </Col>
                 <Col span={10} offset={1}>
-                <Select defaultValue="Delivery Time" style={{ width: '100%' }} onChange={handleChangeTime}>
-                    {data.products !== undefined && data.products.map((list, ix) => {
-                        return <Option key={list.delivery_time} value={list.delivery_time}>{list.delivery_time}</Option>
-                    })}
+                <Select mode="multiple" placeholder="Delivery Time" style={{ width: '100%' }} onChange={handleChangeTime}>
+                    <Option key={1} value={7}>1 Week</Option>
+                    <Option key={2} value={14}>2 Weeks</Option>
+                    <Option key={3} value={31}>1 Month</Option>
+                    <Option key={4} value={32}>More</Option>
                 </Select>
                 </Col>
             </div>
@@ -106,7 +117,7 @@ const Main = (props) => {
                     dataSource={filter}
                     renderItem={(item, index) => (
                     <List.Item align='left' key={index}>
-                        <Card title={item.name + ' --- ' + item.price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')} style={{minHeight: '400px'}}>{item.description}
+                        <Card title={item.name + ' --- IDR.' + item.price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')} style={{minHeight: '400px'}}>{item.description}
                         <Divider />
                         {item.furniture_style.map(a => {
                             return <div>{a}</div>
