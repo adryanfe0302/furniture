@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+import Main from './main'
+import 'antd/dist/antd.css';
 import './App.css';
 
 function App() {
+  const [data, setData] = useState([])
+    useEffect(() => {
+        fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
+        .then(res => res.json())
+        .then(res => {
+            setData(res)
+            console.log('res', res)
+        })
+    }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Main data={data} />
     </div>
   );
 }
