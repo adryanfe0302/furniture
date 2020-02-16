@@ -14,4 +14,32 @@ code {
 .headerstyle{
   background: #0e6cc8;
   padding: 50px;
+  height: auto;
+}
+
+.search{
+  width: 100%;
+}
+
+.search > input {
+  background: #0e6cc8;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0px;
+  color: white;
+  font-weight: bold;
+  box-shadow: none;
+}
+
+.search > input:focus,.search > input:active{
+  background: #0e6cc8;
+  border: none;
+  border-radius: 0px;
+  box-shadow: none;
+}
+
+
+.search > input:hover{
+  border-bottom: 1px solid #ddd;
+  border-radius: 0px;
 }
