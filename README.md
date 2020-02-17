@@ -1,5 +1,6 @@
-git clone
+# git clone https://github.com/adryanfe0302/furniture.git
+# cd fabelio
 
-npm intall
+#npm install
 
-npm start
+#npm start
