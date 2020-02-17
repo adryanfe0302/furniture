@@ -24,7 +24,7 @@ const Main = (props) => {
                     })
                     setData((oldata) => ({
                         ...oldata,
-                        products: arr
+                        products: arr.filter((item, idx) => arr.indexOf(item) === idx)
                     }))
                 }) 
             }
@@ -58,26 +58,14 @@ const Main = (props) => {
     }
 
     const search = e => {
-        if (e === '') {
-            fetch(api)
-            .then(res => res.json())
-            .then(res => {
-                setData(res)
-            })
-        } else {
-            const lowercasedValue = e.toLowerCase();
-            const filterdata = data.products.filter(el => el.name.toLowerCase().includes(lowercasedValue))
-            
-            setData((prevState) => ({
-                ...prevState,
-                products: filterdata
-            }))
-        }
+        const lowercasedValue = e.toLowerCase();
+        const filterdata = data.products.filter(el => el.name.toLowerCase().includes(lowercasedValue))
+        setFilter(filterdata)
     }
 
     useEffect(() => {
         setFilter(data.products)
-    })
+    }, [data])
 
     return (
         <Row>
