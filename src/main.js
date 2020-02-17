@@ -8,6 +8,7 @@ const { Search } = Input;
 const Main = (props) => {
     const [data, setData] = useContext(StateContext)
     const [filter, setFilter] = useState(data.products)
+  
     const handleChangeTime = e => {
         fetch(api)
         .then(res => res.json())
@@ -81,7 +82,7 @@ const Main = (props) => {
                 </Col>
                 <br /><br /><br />
                 <Col span={10}>
-                <Select mode="multiple" placeholder="Furniture Style" style={{ width: '100%' }} onChange={handleChangeFurniture}>
+                <Select mode="multiple" placeholder="Furniture Style" style={{ width: '100%' }} onChange={handleChangeFurniture} id='furniture'>
                     {data.furniture_styles !== undefined &&data.furniture_styles.map((list, id) => {
                         return <Option key={id} value={list}>{list}</Option>
                     })}
